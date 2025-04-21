@@ -1,11 +1,10 @@
 using System;
-using Core.Testing.BaseClasses;
-using Core.Testing.Tests.Mocks;
-using Microsoft.Extensions.DependencyInjection;
+using TestBae.BaseClasses;
+using TestBae.Tests.Mocks;
 using Moq;
 using Xunit;
 
-namespace Core.Testing.Tests.BaseClasses;
+namespace TestBae.Tests.BaseClasses;
 
 public class BaseTestTests : BaseTest<SeedService>
 {

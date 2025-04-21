@@ -1,14 +1,14 @@
 using System;
 using AutoFixture;
-using Core.Testing.BaseClasses;
-using Core.Testing.BaseClasses.AutoFixture;
-using Core.Testing.Tests.Mocks;
+using TestBae.BaseClasses;
+using TestBae.BaseClasses.AutoFixture;
+using TestBae.Tests.Mocks;
 using Moq;
 using Xunit;
 
-namespace Core.Testing.Tests.BaseClasses;
+namespace TestBae.Tests.BaseClasses;
 
-public class AutoFixtureBaseTestTests : Testing.BaseClasses.AutoFixture.BaseTest<SeedService>
+public class AutoFixtureBaseTestTests : BaseTest<SeedService>
 {
     private Mock<ISeededTestValue> _seededValue;
 

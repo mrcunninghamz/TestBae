@@ -1,8 +1,7 @@
-﻿
-Microsoft Visual Studio Solution File, Format Version 12.00
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Core.Testing", "Core.Testing\Core.Testing.csproj", "{024F9278-DB7B-4BDD-8C17-8799EE2FBFBA}"
+﻿Microsoft Visual Studio Solution File, Format Version 12.00
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TestBae", "TestBae\TestBae.csproj", "{024F9278-DB7B-4BDD-8C17-8799EE2FBFBA}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Core.Testing.Tests", "Core.Testing.Tests\Core.Testing.Tests.csproj", "{4ADDAF6C-D582-4984-B381-E2339A535F7F}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TestBae.Tests", "TestBae.Tests\TestBae.Tests.csproj", "{4ADDAF6C-D582-4984-B381-E2339A535F7F}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

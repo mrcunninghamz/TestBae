@@ -4,7 +4,7 @@ using AutoFixture.Community.AutoMapper;
 using AutoMapper;
 using Xunit;
 
-namespace Core.Testing.BaseClasses.AutoFixture;
+namespace TestBae.BaseClasses.AutoFixture;
 
 public abstract class BaseTest<TSubject> where TSubject : class
 {

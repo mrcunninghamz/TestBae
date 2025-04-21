@@ -3,7 +3,7 @@ using AutoMapper;
 using Microsoft.Extensions.DependencyInjection;
 using Xunit;
 
-namespace Core.Testing.BaseClasses;
+namespace TestBae.BaseClasses;
 
 public abstract class BaseTest<TSubject> where TSubject : class
 {

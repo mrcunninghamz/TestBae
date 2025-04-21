@@ -1,4 +1,4 @@
-namespace Core.Testing.Tests.Mocks
+namespace TestBae.Tests.Mocks
 {
     public class Test
     {
