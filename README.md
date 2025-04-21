@@ -1,6 +1,35 @@
 # TestBae
 A set of base test classes that take care of mocking / dependency injection / automapper
 
+## Installation
+
+TestBae is available as a NuGet package. You can add it to your project using one of the following methods:
+
+### Using .NET CLI
+
+```bash
+dotnet add package TestBae
+```
+
+### Using Package Manager Console in Visual Studio
+
+```powershell
+Install-Package TestBae
+```
+
+### Using PackageReference in your project file
+
+```xml
+<PackageReference Include="TestBae" Version="0.0.1" />
+```
+
+### Using Visual Studio
+
+1. Right-click on your project in Solution Explorer
+2. Select "Manage NuGet Packages..."
+3. Switch to the "Browse" tab
+4. Search for "TestBae"
+5. Click "Install"
 
 ## Classes
 
