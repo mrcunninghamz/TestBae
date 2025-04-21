@@ -8,7 +8,7 @@ using Xunit;
 
 namespace TestBae.Tests.BaseClasses;
 
-public class AutoFixtureBaseTestTests : BaseTest<SeedService>
+public class AutoFixtureBaseTestTests : TestBae.BaseClasses.AutoFixture.BaseTest<SeedService>
 {
     private Mock<ISeededTestValue> _seededValue;
 
