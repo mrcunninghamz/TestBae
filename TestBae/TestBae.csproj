@@ -9,13 +9,13 @@
         <PackageId>TestBae</PackageId>
         <VersionPrefix>0.0.1</VersionPrefix>
         <!-- VersionSuffix is set by command line for prerelease packages -->
-        <Authors>mrcunnghamz</Authors>
-        <Company>mrcunnghamz</Company>
+        <Authors>mrcunninghamz</Authors>
+        <Company>mrcunninghamz</Company>
         <Description>A testing helper library that simplifies setup for unit tests.</Description>
         <PackageTags>testing;unit-testing;autofixture;automapper;xunit</PackageTags>
         <PackageLicenseExpression>MIT</PackageLicenseExpression>
         <PackageReadmeFile>README.md</PackageReadmeFile>
-        <RepositoryUrl>https://github.com/mrcunnghamz/TestBae</RepositoryUrl>
+        <RepositoryUrl>https://github.com/mrcunninghamz/TestBae</RepositoryUrl>
         <RepositoryType>git</RepositoryType>
         
         <!-- Package Generation -->
