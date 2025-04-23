@@ -20,7 +20,7 @@ Install-Package TestBae
 ### Using PackageReference in your project file
 
 ```xml
-<PackageReference Include="TestBae" Version="0.0.1" />
+<PackageReference Include="TestBae" Version="0.0.2" />
 ```
 
 ### Using Visual Studio
