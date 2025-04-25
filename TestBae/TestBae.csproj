@@ -7,7 +7,7 @@
         
         <!-- NuGet Package Information -->
         <PackageId>TestBae</PackageId>
-        <VersionPrefix>0.0.2</VersionPrefix>
+        <VersionPrefix>0.0.3</VersionPrefix>
         <!-- VersionSuffix is set by command line for prerelease packages -->
         <Authors>mrcunninghamz</Authors>
         <Company>mrcunninghamz</Company>
