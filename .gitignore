@@ -1,6 +1,11 @@
-
 # Created by https://www.toptal.com/developers/gitignore/api/rider,visualstudio,visualstudiocode,macos,windows
 # Edit at https://www.toptal.com/developers/gitignore?templates=rider,visualstudio,visualstudiocode,macos,windows
+
+### Project Specific ###
+# Ignore local application settings files
+appsettings.local.json
+*/appsettings.local.json
+**/appsettings.local.json
 
 ### macOS ###
 # General

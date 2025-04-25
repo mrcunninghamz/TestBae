@@ -33,8 +33,13 @@ Install-Package TestBae
 
 ## Classes
 
+TestBae provides two base test classes to simplify unit testing with different approaches:
+
+1. `BaseTest<TSubject>` - Uses manual dependency injection and mocking
+2. `AutoFixture.BaseTest<TSubject>` - Uses AutoFixture for automatic test data generation and mocking
+
 ### BaseTest
-This is an abstract class used in unit tests class to automatically setup automapper and puts your mocks into dependency injection.
+This is an abstract class used in unit tests to automatically setup AutoMapper and inject your mocks into dependency injection.
 
 #### Setup
 In your unit test class reference the class you are testing. In this example the `PermissionsController` is the class being tested.
@@ -43,37 +48,37 @@ In your unit test class reference the class you are testing. In this example the
 public class PermissionsControllerTests : BaseTest<PermissionsController>
 ```
 
-The `BaseTest` class will look for automapper profiles in the assembly the `PermissionsController` comes from.
+The `BaseTest` class will look for AutoMapper profiles in the assembly the `PermissionsController` comes from.
 
 Next, override the `ConfigureServices` method.
 
 ```c#
 protected override void ConfigureServices(IServiceCollection services)
-        {
-            _mockExternalEntityManager = new Mock<IExternalEntityManager>();
-            _microsoftGraphUserAdapterMock = new Mock<IMicrosoftGraphUserAdapter>();
-            _mockLogger = new Mock<ILogger<PermissionsController>>();
+{
+    _mockExternalEntityManager = new Mock<IExternalEntityManager>();
+    _microsoftGraphUserAdapterMock = new Mock<IMicrosoftGraphUserAdapter>();
+    _mockLogger = new Mock<ILogger<PermissionsController>>();
 
-            //these are mocks for the controller
-            services.AddTransient(_ => _mockExternalEntityManager.Object);
-            services.AddTransient(_ => _microsoftGraphUserAdapterMock.Object);
-            services.AddTransient(_ => _mockLogger.Object);
+    //these are mocks for the controller
+    services.AddTransient(_ => _mockExternalEntityManager.Object);
+    services.AddTransient(_ => _microsoftGraphUserAdapterMock.Object);
+    services.AddTransient(_ => _mockLogger.Object);
 
-            //this is stuff that AutoMapper cares about
-            _httpcontext = new DefaultHttpContext();
-            var _httpContextAccessor = new Mock<IHttpContextAccessor>();
-            _httpContextAccessor
-                .Setup(x => x.HttpContext)
-                .Returns(_httpcontext);
+    //this is stuff that AutoMapper cares about
+    _httpcontext = new DefaultHttpContext();
+    var _httpContextAccessor = new Mock<IHttpContextAccessor>();
+    _httpContextAccessor
+        .Setup(x => x.HttpContext)
+        .Returns(_httpcontext);
 
-            services.AddSingleton(_httpContextAccessor.Object);
-            services.AddSingleton<PagingResponseConverter<ExternalEntity, ExternalEntity>>();
+    services.AddSingleton(_httpContextAccessor.Object);
+    services.AddSingleton<PagingResponseConverter<ExternalEntity, ExternalEntity>>();
 
-            base.ConfigureServices(services);
-        }
+    base.ConfigureServices(services);
+}
 ```
 
-All the mocks added to the `services` will be injected into the test class and automapper (if it needs it).
+All the mocks added to the `services` will be injected into the test class and AutoMapper (if it needs it).
 The base class will then create an instance of the `PermissionsController` and make it available in the `TestSubject` property of the class.
 
 
@@ -97,14 +102,149 @@ public async Task GetGroupsByUser_UserExists_ReturnsOK()
     Assert.True(response.Value.Groups.Count == 3);
 }
 ```
+
+#### Complete Example
+
+Here's a complete example test class using the `BaseTest`:
+
+```c#
+using Microsoft.Extensions.DependencyInjection;
+using Moq;
+using TestBae.BaseClasses;
+using Xunit;
+
+public class UserServiceTests : BaseTest<UserService>
+{
+    private Mock<IUserRepository> _mockUserRepository;
+    private Mock<ILogger<UserService>> _mockLogger;
+
+    protected override void ConfigureServices(IServiceCollection services)
+    {
+        // Create mocks
+        _mockUserRepository = new Mock<IUserRepository>();
+        _mockLogger = new Mock<ILogger<UserService>>();
+        
+        // Add mocks to dependency injection
+        services.AddTransient(_ => _mockUserRepository.Object);
+        services.AddTransient(_ => _mockLogger.Object);
+        
+        // Call base configuration
+        base.ConfigureServices(services);
+    }
+
+    [Fact]
+    public async Task GetUserById_WhenUserExists_ReturnsUser()
+    {
+        // Arrange
+        var userId = 1;
+        var user = new User { Id = userId, Name = "John Doe" };
+        _mockUserRepository.Setup(x => x.GetByIdAsync(userId)).ReturnsAsync(user);
+
+        // Act
+        var result = await TestSubject.GetUserByIdAsync(userId);
+
+        // Assert
+        Assert.NotNull(result);
+        Assert.Equal(userId, result.Id);
+        Assert.Equal("John Doe", result.Name);
+    }
+}
+```
+
 #### Properties
 
-- TestSubject
-  - This is the class you are testing setup by the base class and the dependencies that were configured.
-- Mapper
-  - An instance of automapper setup by the base class and the dependencies that were configured.
-- ServiceProvider
-  - The service provider with all the dependencies.
+- `TestSubject` - This is the class you are testing, instantiated by the base class with the dependencies that were configured.
+- `Mapper` - An instance of AutoMapper setup by the base class with the dependencies that were configured.
+- `ServiceProvider` - The service provider with all the dependencies.
+
+### AutoFixture.BaseTest
+
+This alternative base class uses AutoFixture to simplify test setup and data generation. It's particularly useful for tests that require complex object graphs or when you want to reduce boilerplate test setup code.
+
+#### Setup
+
+First, reference the class you're testing:
+
+```c#
+public class UserServiceTests : TestBae.BaseClasses.AutoFixture.BaseTest<UserService>
+```
+
+Then, override the `ConfigureFixture` method:
+
+```c#
+protected override void ConfigureFixture()
+{
+    // Create and configure mocks
+    var mockUserRepository = Fixture.Freeze<Mock<IUserRepository>>();
+    
+    // No need to manually register dependencies - AutoFixture does this for you
+}
+```
+
+The key difference is that you don't need to manually set up the dependency injection container. AutoFixture does this for you using its `Freeze<T>` method, which both creates an instance and registers it with the fixture.
+
+#### Complete Example
+
+Here's a complete example test class using `AutoFixture.BaseTest`:
+
+```c#
+using AutoFixture;
+using Moq;
+using TestBae.BaseClasses.AutoFixture;
+using Xunit;
+
+public class UserServiceTests : TestBae.BaseClasses.AutoFixture.BaseTest<UserService>
+{
+    private Mock<IUserRepository> _mockUserRepository;
+
+    protected override void ConfigureFixture()
+    {
+        // Create and configure mocks
+        _mockUserRepository = Fixture.Freeze<Mock<IUserRepository>>();
+        
+        // AutoFixture automatically handles dependency injection
+    }
+
+    [Fact]
+    public async Task GetUserById_WhenUserExists_ReturnsUser()
+    {
+        // Arrange
+        var userId = 1;
+        var user = Fixture.Create<User>(); // AutoFixture creates a fully populated User
+        user.Id = userId;
+        
+        _mockUserRepository.Setup(x => x.GetByIdAsync(userId)).ReturnsAsync(user);
+
+        // Act
+        var result = await TestSubject.GetUserByIdAsync(userId);
+
+        // Assert
+        Assert.NotNull(result);
+        Assert.Equal(userId, result.Id);
+        Assert.Equal(user.Name, result.Name);
+    }
+}
+```
+
+#### Properties
+
+- `TestSubject` - The class being tested, automatically instantiated by AutoFixture.
+- `Mapper` - An AutoMapper instance configured with mappings from the assembly of the class being tested.
+- `Fixture` - The AutoFixture instance you can use to create test data.
+
+#### When to Use Which Base Test Class
+
+- **Use BaseTest when:**
+  - You need fine-grained control over dependency injection
+  - You prefer explicit setup of dependencies
+  - You're working in an environment where AutoFixture might be overkill
+
+- **Use AutoFixture.BaseTest when:**
+  - You want to reduce boilerplate code in your tests
+  - You need to create complex object graphs for testing
+  - You want to focus on the specific test behavior rather than setup code
+
+Both classes automatically validate AutoMapper configurations via the built-in `TestMaps()` test method that runs with each test class.
 
 ## Local NuGet Package Development
 
