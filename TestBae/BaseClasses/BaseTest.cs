@@ -18,7 +18,7 @@ public abstract class BaseTest<TSubject> where TSubject : class
     protected virtual void ConfigureServices(IServiceCollection services)
     {
         services.AddAutoMapper(Assembly.GetAssembly(typeof(TSubject)));
-        services.AddTransient<TSubject>();
+        services.AddSingleton<TSubject>();
     }
         
     private void SetupProgram()
