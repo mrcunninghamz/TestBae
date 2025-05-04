@@ -1,18 +1,20 @@
 using System;
 using AutoFixture;
-using TestBae.BaseClasses;
-using TestBae.BaseClasses.AutoFixture;
-using TestBae.Tests.Mocks;
 using Moq;
+using TestBae.Tests.Mocks;
 using Xunit;
 
-namespace TestBae.Tests.BaseClasses;
+namespace TestBae.Tests.ServiceTests;
 
-public class AutoFixtureBaseTestTests : TestBae.BaseClasses.AutoFixture.BaseTest<SeedService>
+public class AutoFixtureSeedServiceTests : TestBae.BaseClasses.AutoFixture.BaseTest<SeedService>
 {
     private Mock<ISeededTestValue> _seededValue;
 
-
+    /// <summary>
+    /// Configures the AutoFixture instance used for generating test data.
+    /// This method can be overridden to customize the behavior of the fixture
+    /// for the specific needs of a derived test class.
+    /// </summary>
     protected override void ConfigureFixture()
     {
         // Create mocks

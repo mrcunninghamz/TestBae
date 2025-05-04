@@ -1,5 +1,7 @@
 using System.Reflection;
 using AutoMapper;
+using Microsoft.Data.Sqlite;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using Xunit;
 

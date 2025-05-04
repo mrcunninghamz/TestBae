@@ -17,8 +17,10 @@ public abstract class BaseTest<TSubject> where TSubject : class
     protected BaseTest()
     {
         Fixture = new Fixture();
-        Fixture.Customize(new CompositeCustomization(new AutoMoqCustomization(), 
-            new AutoMapperCustomization(x => x.AddMaps(typeof(TSubject))))
+        Fixture.Customize(new CompositeCustomization(
+            new AutoMoqCustomization(), 
+            new AutoMapperCustomization(x => x.AddMaps(typeof(TSubject)))
+            )
         );
         SetupTest();
         Mapper = Fixture.Create<IMapper>();

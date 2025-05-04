@@ -1,13 +1,21 @@
 using System;
 using Microsoft.Extensions.DependencyInjection;
+using Moq;
 using TestBae.BaseClasses;
 using TestBae.Tests.Mocks;
-using Moq;
 using Xunit;
 
-namespace TestBae.Tests.BaseClasses;
+namespace TestBae.Tests.ServiceTests;
 
-public class BaseTestTests : BaseTest<SeedService>
+/// <summary>
+/// Contains unit tests for the SeedService class.
+/// </summary>
+/// <remarks>
+/// This class is responsible for testing the behavior of the SeedService and its dependencies,
+/// including mapping configurations and data resolution logic.
+/// It inherits from the BaseTest class, which provides a test setup and configuration logic for the service being tested.
+/// </remarks>
+public class SeedServiceTests : BaseTest<SeedService>
 {
     private Mock<ISeededTestValue> _seededValue;
 
